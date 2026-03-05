@@ -1,12 +1,22 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const nodemailer = require('nodemailer');
+const { google } = require('googleapis');
 const app = express();
 app.use(express.json());
 
 const LEADS_FILE = 'leads.json';
-const TELEGRAM_BOT_TOKEN = '8762692819:AAEABk68IAChFEcHOyq0whFJp_BmEgVJfME';
-const TELEGRAM_CHAT_ID = '5114986927';
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8762692819:AAEABk68IAChFEcHOyq0whFJp_BmEgVJfME';
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '5114986927';
+
+// Gmail setup
+const GMAIL_USER = process.env.GMAIL_USER;
+const GMAIL_APP_PASSWORD = process.env.GMAIL_APP_PASSWORD;
+
+// Google Sheets setup
+const GOOGLE_SHEETS_ID = process.env.GOOGLE_SHEETS_ID;
+const GOOGLE_SERVICE_ACCOUNT_KEY = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
 
 // Load existing leads
 let leads = [];
@@ -131,14 +141,101 @@ app.post('/webhook', async (req, res) => {
   leads.unshift(lead);
   fs.writeFileSync(LEADS_FILE, JSON.stringify(leads, null, 2));
   
-  // Send Telegram notification
+  // Send notifications
   sendTelegramNotification(lead);
+  sendGmailNotification(lead);
+  addToGoogleSheets(lead);
   
   console.log('\n✅ Lead saved to leads.json');
   console.log(`📊 You now have ${leads.length} leads total`);
   
   res.json({ received: true });
 });
+
+// Send Gmail notification
+async function sendGmailNotification(lead) {
+  if (!GMAIL_USER || !GMAIL_APP_PASSWORD) {
+    console.log('⚠️ Gmail not configured, skipping email');
+    return;
+  }
+  
+  try {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: GMAIL_USER,
+        pass: GMAIL_APP_PASSWORD
+      }
+    });
+    
+    let subject = 'New Lead from Koda Receptionist';
+    if (lead.status === 'hot') subject = '🔥 HOT LEAD - Ready to Buy!';
+    if (lead.status === 'booked') subject = '📅 Meeting Booked!';
+    
+    const mailOptions = {
+      from: `Koda Receptionist <${GMAIL_USER}>`,
+      to: GMAIL_USER,
+      subject: subject,
+      html: `
+        <h2>${subject}</h2>
+        <p><strong>Status:</strong> ${lead.status}</p>
+        <p><strong>Customer:</strong> ${lead.customer}</p>
+        <p><strong>Duration:</strong> ${lead.duration} seconds</p>
+        <p><strong>Time:</strong> ${new Date(lead.timestamp).toLocaleString()}</p>
+        <hr>
+        <p><strong>Transcript:</strong></p>
+        <pre>${lead.transcript}</pre>
+        <hr>
+        <p><strong>Summary:</strong> ${lead.summary}</p>
+      `
+    };
+    
+    await transporter.sendMail(mailOptions);
+    console.log('📧 Gmail notification sent!');
+  } catch (err) {
+    console.log('❌ Failed to send Gmail:', err.message);
+  }
+}
+
+// Add to Google Sheets
+async function addToGoogleSheets(lead) {
+  if (!GOOGLE_SHEETS_ID || !GOOGLE_SERVICE_ACCOUNT_KEY) {
+    console.log('⚠️ Google Sheets not configured, skipping');
+    return;
+  }
+  
+  try {
+    const auth = new google.auth.GoogleAuth({
+      credentials: JSON.parse(GOOGLE_SERVICE_ACCOUNT_KEY),
+      scopes: ['https://www.googleapis.com/auth/spreadsheets']
+    });
+    
+    const sheets = google.sheets({ version: 'v4', auth });
+    
+    const values = [
+      [
+        new Date(lead.timestamp).toLocaleString(),
+        lead.status,
+        lead.customer,
+        lead.duration,
+        lead.summary,
+        lead.transcript.substring(0, 500) // First 500 chars
+      ]
+    ];
+    
+    await sheets.spreadsheets.values.append({
+      spreadsheetId: GOOGLE_SHEETS_ID,
+      range: 'Leads!A:F',
+      valueInputOption: 'USER_ENTERED',
+      insertDataOption: 'INSERT_ROWS',
+      resource: { values }
+    });
+    
+    console.log('📊 Added to Google Sheets!');
+  } catch (err) {
+    console.log('❌ Failed to add to Sheets:', err.message);
+  }
+}
 
 // API endpoint for dashboard to get leads data
 app.get('/leads-data', (req, res) => {
