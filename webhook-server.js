@@ -244,7 +244,7 @@ app.get('/leads-data', (req, res) => {
 
 // Serve the dashboard HTML
 app.get('/', (req, res) => {
-  const dashboardPath = '/Users/tristantrutanich/.openclaw/workspace/dashboard.html';
+  const dashboardPath = path.join(__dirname, 'dashboard.html');
   if (fs.existsSync(dashboardPath)) {
     res.sendFile(dashboardPath);
   } else {
@@ -254,7 +254,7 @@ app.get('/', (req, res) => {
 
 // Also serve dashboard at /dashboard
 app.get('/dashboard', (req, res) => {
-  const dashboardPath = '/Users/tristantrutanich/.openclaw/workspace/dashboard.html';
+  const dashboardPath = path.join(__dirname, 'dashboard.html');
   if (fs.existsSync(dashboardPath)) {
     res.sendFile(dashboardPath);
   } else {
