@@ -44,7 +44,7 @@ function getCallStats() {
 }
 
 // Determine call type
-categorizeCall(duration, transcript, summary) {
+function categorizeCall(duration, transcript, summary) {
   if (!duration || duration < 5) return 'hangup';
   if (duration < 15) return 'short';
   
