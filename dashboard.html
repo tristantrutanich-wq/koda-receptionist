@@ -1,299 +1,324 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Koda Creative Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { 
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0a0a0a;
-      color: #fff;
-      padding: 20px;
-    }
-    .header {
-      text-align: center;
-      padding: 30px 0;
-      border-bottom: 2px solid #D4AF37;
-      margin-bottom: 30px;
-    }
-    .header h1 {
-      color: #D4AF37;
-      font-size: 2.5em;
-      margin-bottom: 10px;
-    }
-    .status-bar {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 30px;
-    }
-    .status-card {
-      background: #1a1a1a;
-      padding: 20px 30px;
-      border-radius: 10px;
-      border: 1px solid #333;
-      min-width: 150px;
-      text-align: center;
-    }
-    .status-card .label {
-      color: #888;
-      font-size: 0.85em;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .status-card .value {
-      color: #D4AF37;
-      font-size: 2em;
-      font-weight: bold;
-      margin-top: 5px;
-    }
-    .status-card.active .value { color: #4ade80; }
-    .status-card.warning .value { color: #fbbf24; }
-    .section {
-      background: #1a1a1a;
-      border-radius: 10px;
-      padding: 25px;
-      margin-bottom: 20px;
-      border: 1px solid #333;
-    }
-    .section h2 {
-      color: #D4AF37;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .lead {
-      background: #252525;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      border-left: 4px solid #D4AF37;
-    }
-    .lead.hot { border-left-color: #ef4444; }
-    .lead.warm { border-left-color: #fbbf24; }
-    .lead-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .lead-name {
-      font-weight: bold;
-      font-size: 1.1em;
-    }
-    .lead-time {
-      color: #888;
-      font-size: 0.9em;
-    }
-    .lead-status {
-      display: inline-block;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.75em;
-      text-transform: uppercase;
-      font-weight: bold;
-    }
-    .status-booked { background: #22c55e; color: #000; }
-    .status-hot { background: #ef4444; }
-    .status-cold { background: #6b7280; }
-    .lead-transcript {
-      color: #aaa;
-      font-size: 0.9em;
-      margin-top: 10px;
-      line-height: 1.5;
-    }
-    .quick-actions {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-    }
-    .action-btn {
-      background: #D4AF37;
-      color: #000;
-      padding: 15px 20px;
-      border-radius: 8px;
-      text-decoration: none;
-      text-align: center;
-      font-weight: bold;
-      transition: all 0.2s;
-    }
-    .action-btn:hover {
-      background: #e5c048;
-      transform: translateY(-2px);
-    }
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-    .info-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 12px 0;
-      border-bottom: 1px solid #333;
-    }
-    .info-item:last-child { border-bottom: none; }
-    .info-label { color: #888; }
-    .info-value { color: #fff; font-weight: 500; }
-    .empty-state {
-      text-align: center;
-      padding: 40px;
-      color: #666;
-    }
-    .phone-link {
-      color: #D4AF37;
-      text-decoration: none;
-      font-size: 1.5em;
-    }
-    @media (max-width: 600px) {
-      .header h1 { font-size: 1.8em; }
-      .status-bar { flex-direction: column; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koda Receptionist - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .stat-card.total { border-top: 4px solid #667eea; }
+        .stat-card.qualified { border-top: 4px solid #10b981; }
+        .stat-card.hangups { border-top: 4px solid #ef4444; }
+        .stat-card.short { border-top: 4px solid #f59e0b; }
+        .stat-card.completed { border-top: 4px solid #6b7280; }
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .stat-card.total .stat-number { color: #667eea; }
+        .stat-card.qualified .stat-number { color: #10b981; }
+        .stat-card.hangups .stat-number { color: #ef4444; }
+        .stat-card.short .stat-number { color: #f59e0b; }
+        .stat-card.completed .stat-number { color: #6b7280; }
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .call-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .call-item {
+            border-left: 4px solid;
+            padding: 15px;
+            background: #f9fafb;
+            border-radius: 0 8px 8px 0;
+            transition: transform 0.2s;
+        }
+        .call-item:hover {
+            transform: translateX(5px);
+        }
+        .call-item.hot { border-left-color: #ef4444; background: #fef2f2; }
+        .call-item.booked { border-left-color: #10b981; background: #ecfdf5; }
+        .call-item.lead { border-left-color: #3b82f6; background: #eff6ff; }
+        .call-item.completed { border-left-color: #6b7280; }
+        .call-item.short { border-left-color: #f59e0b; background: #fffbeb; }
+        .call-item.hangup { border-left-color: #9ca3af; background: #f3f4f6; }
+        .call-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .call-type {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+        .call-type.hot { background: #ef4444; color: white; }
+        .call-type.booked { background: #10b981; color: white; }
+        .call-type.lead { background: #3b82f6; color: white; }
+        .call-type.completed { background: #6b7280; color: white; }
+        .call-type.short { background: #f59e0b; color: white; }
+        .call-type.hangup { background: #9ca3af; color: white; }
+        .call-time {
+            color: #666;
+            font-size: 0.9em;
+        }
+        .call-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .call-detail {
+            font-size: 0.9em;
+        }
+        .call-detail strong {
+            color: #333;
+        }
+        .call-transcript {
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            color: #666;
+            max-height: 100px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin-top: 10px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+        .empty-state h3 {
+            margin-bottom: 10px;
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #10b981;
+            color: white;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .status-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .phone-number {
+            font-size: 1.5em;
+            color: #667eea;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="header">
-    <h1>KODA CREATIVE</h1>
-    <p>AI Receptionist Dashboard</p>
-  </div>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Koda Receptionist</h1>
+            <p>AI-powered phone answering for small businesses</p>
+            <div class="status-badge">AI STATUS: LIVE</div>
+            <div class="phone-number">(424) 340-0902</div>
+        </div>
 
-  <div class="status-bar">
-    <div class="status-card active">
-      <div class="label">AI Status</div>
-      <div class="value">● LIVE</div>
-    </div>
-    <div class="status-card">
-      <div class="label">Total Leads</div>
-      <div class="value" id="total-leads">0</div>
-    </div>
-    <div class="status-card">
-      <div class="label">Today's Calls</div>
-      <div class="value" id="today-calls">0</div>
-    </div>
-    <div class="status-card">
-      <div class="label">Phone Number</div>
-      <div class="value" style="font-size: 1.2em;">
-        <a href="tel:+14243400902" class="phone-link">(424) 340-0902</a>
-      </div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>📞 Recent Leads</h2>
-    <div id="leads-container">
-      <div class="empty-state">Loading leads...</div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>⚡ Quick Actions</h2>
-    <div class="quick-actions">
-      <a href="tel:+14243400902" class="action-btn">📞 Test Your AI</a>
-      <a href="https://dashboard.vapi.ai" target="_blank" class="action-btn">🔧 Vapi Dashboard</a>
-      <a href="https://dashboard.stripe.com" target="_blank" class="action-btn">💳 Stripe Dashboard</a>
-      <a href="https://facebook.com" target="_blank" class="action-btn">📱 Post on Facebook</a>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>ℹ️ Your Settings</h2>
-    <div class="info-grid">
-      <div>
-        <div class="info-item">
-          <span class="info-label">Business Name</span>
-          <span class="info-value">Koda Creative</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Pricing</span>
-          <span class="info-value">$700/month</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Your Hours</span>
-          <span class="info-value">1PM - 6PM Daily</span>
-        </div>
-      </div>
-      <div>
-        <div class="info-item">
-          <span class="info-label">AI Voice</span>
-          <span class="info-value">Emma (Natural)</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Stripe Link</span>
-          <span class="info-value"><a href="https://buy.stripe.com/bJe5kDa21glLdf1giJ7AI03" target="_blank" style="color:#D4AF37">View</a></span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Last Updated</span>
-          <span class="info-value" id="last-updated">--</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Load leads from the server
-    async function loadLeads() {
-      try {
-        const response = await fetch('/leads-data');
-        const leads = await response.json();
-        
-        document.getElementById('total-leads').textContent = leads.length;
-        document.getElementById('last-updated').textContent = new Date().toLocaleTimeString();
-        
-        // Count today's calls
-        const today = new Date().toDateString();
-        const todayCalls = leads.filter(l => new Date(l.timestamp).toDateString() === today);
-        document.getElementById('today-calls').textContent = todayCalls.length;
-        
-        // Display leads
-        const container = document.getElementById('leads-container');
-        if (leads.length === 0) {
-          container.innerHTML = '<div class="empty-state">No leads yet. Post on Facebook and wait for calls!</div>';
-          return;
-        }
-        
-        container.innerHTML = leads.slice(0, 10).map(lead => {
-          const date = new Date(lead.timestamp);
-          const timeAgo = Math.round((Date.now() - date) / 1000 / 60);
-          const timeText = timeAgo < 60 ? `${timeAgo}m ago` : `${Math.round(timeAgo/60)}h ago`;
-          
-          let statusClass = 'cold';
-          let statusText = 'New Lead';
-          if (lead.summary?.includes('booked') || lead.summary?.includes('meeting')) {
-            statusClass = 'warm';
-            statusText = 'Call Booked';
-          }
-          if (lead.summary?.includes('hot') || lead.summary?.includes('ready') || lead.summary?.includes('buy')) {
-            statusClass = 'hot';
-            statusText = '🔥 HOT LEAD';
-          }
-          
-          return `
-            <div class="lead ${statusClass}">
-              <div class="lead-header">
-                <div>
-                  <div class="lead-name">${lead.customer || 'Unknown Caller'}</div>
-                  <div class="lead-time">${date.toLocaleString()} · ${timeText} · ${lead.duration || '?'}s call</div>
-                </div>
-                <span class="lead-status status-${statusClass}">${statusText}</span>
-              </div>
-              <div class="lead-transcript">
-                ${lead.summary || lead.transcript?.substring(0, 200) || 'No details captured'}...
-              </div>
+        <div class="stats-grid" id="stats">
+            <div class="stat-card total">
+                <div class="stat-number" id="total-calls">0</div>
+                <div class="stat-label">Total Calls</div>
             </div>
-          `;
-        }).join('');
-      } catch (err) {
-        document.getElementById('leads-container').innerHTML = 
-          '<div class="empty-state">Error loading leads. Make sure webhook server is running.</div>';
-      }
-    }
-    
-    loadLeads();
-    setInterval(loadLeads, 30000); // Refresh every 30 seconds
-  </script>
+            <div class="stat-card qualified">
+                <div class="stat-number" id="qualified-calls">0</div>
+                <div class="stat-label">Qualified Leads</div>
+            </div>
+            <div class="stat-card hangups">
+                <div class="stat-number" id="hangup-calls">0</div>
+                <div class="stat-label">Hang-ups</div>
+            </div>
+            <div class="stat-card short">
+                <div class="stat-number" id="short-calls">0</div>
+                <div class="stat-label">Short Calls</div>
+            </div>
+            <div class="stat-card completed">
+                <div class="stat-number" id="completed-calls">0</div>
+                <div class="stat-label">Completed</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📞 All Calls</h2>
+            <div class="call-list" id="call-list">
+                <div class="empty-state">
+                    <h3>No calls yet</h3>
+                    <p>When someone calls your number, they'll appear here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleString();
+        }
+
+        function formatDuration(seconds) {
+            if (!seconds) return 'N/A';
+            if (seconds < 60) return `${seconds}s`;
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}m ${secs}s`;
+        }
+
+        function getTypeLabel(type) {
+            const labels = {
+                'hot': '🔥 Hot Lead',
+                'booked': '📅 Meeting Booked',
+                'lead': '📞 Lead',
+                'completed': '✓ Completed',
+                'short': '⚡ Short Call',
+                'hangup': '✕ Hang-up'
+            };
+            return labels[type] || type;
+        }
+
+        async function loadCalls() {
+            try {
+                const response = await fetch('/calls-data');
+                const data = await response.json();
+                
+                // Update stats
+                document.getElementById('total-calls').textContent = data.stats.total;
+                document.getElementById('qualified-calls').textContent = data.stats.qualified;
+                document.getElementById('hangup-calls').textContent = data.stats.hangups;
+                document.getElementById('short-calls').textContent = data.stats.short;
+                document.getElementById('completed-calls').textContent = data.stats.completed;
+                
+                // Update call list
+                const callList = document.getElementById('call-list');
+                
+                if (data.calls.length === 0) {
+                    callList.innerHTML = `
+                        <div class="empty-state">
+                            <h3>No calls yet</h3>
+                            <p>When someone calls your number, they'll appear here.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                callList.innerHTML = data.calls.map(call => `
+                    <div class="call-item ${call.type}">
+                        <div class="call-header">
+                            <span class="call-type ${call.type}">${getTypeLabel(call.type)}</span>
+                            <span class="call-time">${formatTime(call.timestamp)}</span>
+                        </div>
+                        <div class="call-details">
+                            <div class="call-detail"><strong>From:</strong> ${call.customer}</div>
+                            <div class="call-detail"><strong>Duration:</strong> ${formatDuration(call.duration)}</div>
+                        </div>
+                        ${call.transcript ? `<div class="call-transcript">${call.transcript.substring(0, 300)}${call.transcript.length > 300 ? '...' : ''}</div>` : ''}
+                    </div>
+                `).join('');
+                
+            } catch (err) {
+                console.error('Failed to load calls:', err);
+                document.getElementById('call-list').innerHTML = `
+                    <div class="empty-state">
+                        <h3>Error loading calls</h3>
+                        <p>Please refresh the page to try again.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Load on page load
+        loadCalls();
+        
+        // Refresh every 30 seconds
+        setInterval(loadCalls, 30000);
+    </script>
 </body>
 </html>
