@@ -185,6 +185,40 @@
             font-weight: bold;
             margin-top: 10px;
         }
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 20px;
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        .action-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+        .action-btn.stripe { border-color: #635bff; color: #635bff; }
+        .action-btn.stripe:hover { background: #635bff; color: white; }
+        .action-btn.vapi { border-color: #10b981; color: #10b981; }
+        .action-btn.vapi:hover { background: #10b981; color: white; }
+        .action-btn.telegram { border-color: #0088cc; color: #0088cc; }
+        .action-btn.telegram:hover { background: #0088cc; color: white; }
+        .action-btn.render { border-color: #46e3b7; color: #000; }
+        .action-btn.render:hover { background: #46e3b7; color: #000; }
         @media (max-width: 600px) {
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -224,6 +258,30 @@
             <div class="stat-card completed">
                 <div class="stat-number" id="completed-calls">0</div>
                 <div class="stat-label">Completed</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⚡ Quick Actions</h2>
+            <div class="quick-actions">
+                <a href="https://dashboard.stripe.com" target="_blank" class="action-btn stripe">
+                    💳 Stripe Dashboard
+                </a>
+                <a href="https://dashboard.vapi.ai" target="_blank" class="action-btn vapi">
+                    📞 Vapi Dashboard
+                </a>
+                <a href="https://t.me/KodaAi19_bot" target="_blank" class="action-btn telegram">
+                    💬 Telegram Bot
+                </a>
+                <a href="https://dashboard.render.com" target="_blank" class="action-btn render">
+                    🚀 Render Dashboard
+                </a>
+                <a href="https://github.com/tristantrutanich-wq/Koda-creative-reception" target="_blank" class="action-btn">
+                    📁 GitHub Repo
+                </a>
+                <button onclick="testCall()" class="action-btn" style="border-color: #f59e0b; color: #f59e0b;">
+                    🧪 Test Call System
+                </button>
             </div>
         </div>
 
@@ -312,6 +370,11 @@
                     </div>
                 `;
             }
+        }
+
+        // Test call function
+        async function testCall() {
+            alert('📞 Call your number (424) 340-0902 to test the system!');
         }
 
         // Load on page load
